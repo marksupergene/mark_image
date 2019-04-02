@@ -28,10 +28,6 @@ def readImagePaths(path):
 
 @api_view(['POST'])
 def mona_lisa(request): # Mona Lisa museum painting
-  # dirName = "src/mona_lisa"
-
-  # Read all images
-  # imagePaths = readImagePaths(dirName)
 
   # Read two images
   data = utils.parseRequest(request)
@@ -132,7 +128,6 @@ def mona_lisa(request): # Mona Lisa museum painting
 
   # Read source image.
   im_src = np.copy(output)
-#   im_src = cv2.imread('images/grad_mark.jpg')
   # Four corners of the book in source image
   pts_src = np.array(
       [[0, 0], [599, 0], [599, 599], [0, 599]], dtype=float)
@@ -151,9 +146,6 @@ def mona_lisa(request): # Mona Lisa museum painting
 
   # Create the basic black image
   mask = np.zeros(im_dst.shape, dtype="uint8")
-
-  # Draw a white, filled rectangle on the mask image
-  # cv2.rectangle(mask, (44, 357), (720, 740), (255, 255, 255), -1)
 
   pts = np.array([[379, 153], [689, 137], [696, 483], [378, 477]], np.int32)
   pts = pts.reshape((-1, 1, 2))
@@ -220,8 +212,6 @@ def friends_morph(request): # Face morph to FRIENDS character
   video = cv2.VideoWriter('results/face_morph/face_average.avi', -1,
                           10, (bg.shape[1], bg.shape[0]))
 
-  frames = []
-
   while alpha < 1:
       # Compute landmark points based on morphing parameter alpha
       pointsMorph = (1 - alpha) * points1 + alpha * points2
@@ -247,6 +237,5 @@ def friends_morph(request): # Face morph to FRIENDS character
   video.release()
 
   path = "results/face_morph/face_average.avi"
-  # video_utils.video_write(path, 10, (imMorph.shape[1], imMorph.shape[0]), frames)
   url = utils.video_to_url(path)
   return Response({"video_url": url})
